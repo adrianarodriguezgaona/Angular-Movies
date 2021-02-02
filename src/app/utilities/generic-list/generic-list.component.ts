@@ -11,7 +11,7 @@ export class GenericListComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.list.length > 0);
+    console.log(this.list.length === 0);
   }
   @Input()
   list;

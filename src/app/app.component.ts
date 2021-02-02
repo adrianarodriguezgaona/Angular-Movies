@@ -18,17 +18,7 @@ export class AppComponent implements OnInit {
       price: 300.99
      }
     ];
-    this.moviesFutureReleases=[{
-      title: 'Avengers',
-      releaseDate: new Date(),
-      price: 456.99
-     },
-     {
-      title: 'Toy Story',
-      releaseDate: new Date('2021-02-24'),
-      price: 789.99
-     }
-    ];
+    this.moviesFutureReleases=[];
     
   }
  moviesInTheaters;

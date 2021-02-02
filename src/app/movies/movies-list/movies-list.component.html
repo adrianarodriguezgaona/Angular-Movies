@@ -1,0 +1,20 @@
+<app-generic-list [list]="movies">
+    <ng-container content>
+        <div *ngFor="let movie of movies; let index =index">
+            <div>
+                {{index}}) {{movie.title | lowercase}}
+            </div>
+            <div>{{movie.releaseDate  | date: "dd-MMMM-yyyy" | uppercase }}</div>
+            <div>{{movie.price |currency}}</div>
+        </div>
+    </ng-container>
+</app-generic-list>
+
+
+<!-- <div *ngFor="let movie of movies; let index =index">
+    <div>
+        {{index}}) {{movie.title | lowercase}}
+    </div>
+    <div>{{movie.releaseDate  | date: "dd-MMMM-yyyy" | uppercase }}</div>
+    <div>{{movie.price |currency}}</div>
+</div> -->

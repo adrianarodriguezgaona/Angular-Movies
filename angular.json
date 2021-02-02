@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "angular-movies"
+    }
+  },
+  "defaultProject": "angular-movies",
+  "cli": {
+    "analytics": false
+  }
 }

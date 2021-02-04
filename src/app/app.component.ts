@@ -21,6 +21,11 @@ export class AppComponent implements OnInit {
     this.moviesFutureReleases=[];
     
   }
+
  moviesInTheaters;
  moviesFutureReleases;
+
+ handleRating(rate:number){
+  alert(`the user selected ${rate}`);
+ }
 }

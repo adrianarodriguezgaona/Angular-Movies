@@ -11,10 +11,17 @@
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
-  
+  <h4>Select picture</h4>
     <app-input-img
      [urlCurrentImage]= "model?.picture"
-     (onImageSelected)="onImageSelected($event)"></app-input-img>
+     (onImageSelected)="onImageSelected($event)">
+    </app-input-img>
+  
+  <h4>Biography</h4>
+    <app-input-markdown (changeMarkdown)="changeMarkdown($event)"
+      [markdownContent]= "model?.biography"  
+    >
+  </app-input-markdown>
     <div>
         <button mat-flat-button color="primary" [disabled]="form.invalid">Save Changes</button>
         <a mat-stroked-button routerLink="/actors">Cancel</a>

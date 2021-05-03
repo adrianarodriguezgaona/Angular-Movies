@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { icon, latLng, LeafletMouseEvent, marker, Marker, tileLayer } from 'leaflet';
+import { coordinatesMap } from './coordinate';
 
 @Component({
   selector: 'app-map',
@@ -11,15 +12,21 @@ export class MapComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-  
+    this.layers = this.initialCoordinates.map(value => marker([value.latitude, value.longitude]));
   }
+
+  @Input()
+  initialCoordinates: coordinatesMap[] = [];
+
+  @Output()
+  onSelectedLocation = new EventEmitter<coordinatesMap>();
   
   options = {
     layers: [
       tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
          maxZoom: 18, attribution: 'Angular Movies'})
     ],
-    zoom: 10,
+    zoom: 14,
     center: latLng( 4.660950272189076, -74.10827636718751)
   };
 
@@ -31,6 +38,7 @@ export class MapComponent implements OnInit {
     console.log({latitude, longitude});
     this.layers = [];
     this.layers.push(marker([latitude, longitude]));
+    this.onSelectedLocation.emit({latitude, longitude});
   }
   
 }

@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {MarkdownModule} from 'ngx-markdown';
 import{LeafletModule} from '@asymmetrik/ngx-leaflet';
-// import "leaflet/dist/images/marker-shadow.png";
+import{HttpClientModule} from '@angular/common/http'
 
 import{MaterialModule} from './material/material.module';
 import { MenuComponent } from './menu/menu.component';
@@ -34,6 +34,8 @@ import { InputMarkdownComponent } from './utilities/input-markdown/input-markdow
 import { MovieTheaterFormComponent } from './movie-theaters/movie-theater-form/movie-theater-form.component';
 import { MapComponent } from './utilities/map/map.component';
 import { FormMovieComponent } from './movies/form-movie/form-movie.component';
+import { MultipleSelectorComponent } from './utilities/multiple-selector/multiple-selector.component';
+import { ActorsAutocompleteComponent } from './actors/actors-autocomplete/actors-autocomplete.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +63,9 @@ import { FormMovieComponent } from './movies/form-movie/form-movie.component';
     InputMarkdownComponent,
     MovieTheaterFormComponent,
     MapComponent,
-    FormMovieComponent
+    FormMovieComponent,
+    MultipleSelectorComponent,
+    ActorsAutocompleteComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +75,8 @@ import { FormMovieComponent } from './movies/form-movie/form-movie.component';
     ReactiveFormsModule,
     FormsModule,
     LeafletModule,
-    MarkdownModule.forRoot()
+    HttpClientModule,
+    MarkdownModule.forRoot()   
   ],
   providers: [],
   bootstrap: [AppComponent]

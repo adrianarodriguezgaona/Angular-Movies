@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { firstLetterUppercase } from 'src/app/validators/firstLetterUppercase';
-import { genreCreationDTO } from '../genres.model';
+import { genreCreationDTO, genreDTO } from '../genres.model';
 
 @Component({
   selector: 'app-form-genre',
@@ -13,19 +13,20 @@ export class FormGenreComponent implements OnInit {
   constructor( private formBuilder: FormBuilder ) { }
 
   @Input()
-  model: genreCreationDTO;
+  model: genreDTO;
 
   form: FormGroup;
 
   @Output()
-  onSaveChanges: EventEmitter<genreCreationDTO> = new EventEmitter<genreCreationDTO>();
+  onSaveChanges: EventEmitter<genreCreationDTO> = new EventEmitter<genreDTO>();
 
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       name : ['',{
         validators: [Validators.required, Validators.minLength(3),firstLetterUppercase()]
-      }]
+      }],
+      id: 0
     });
 
     // to inject the model in the form:

@@ -9,7 +9,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {MarkdownModule} from 'ngx-markdown';
 import{LeafletModule} from '@asymmetrik/ngx-leaflet';
-import{HttpClientModule} from '@angular/common/http'
+import{HttpClientModule} from '@angular/common/http';
+import{SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
+
 
 import{MaterialModule} from './material/material.module';
 import { MenuComponent } from './menu/menu.component';
@@ -76,7 +78,8 @@ import { ActorsAutocompleteComponent } from './actors/actors-autocomplete/actors
     FormsModule,
     LeafletModule,
     HttpClientModule,
-    MarkdownModule.forRoot()   
+    MarkdownModule.forRoot(),
+    SweetAlert2Module.forRoot()   
   ],
   providers: [],
   bootstrap: [AppComponent]

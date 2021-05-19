@@ -19,7 +19,13 @@
                     >
                     Edit
                     </a>
-                    <button mat-flat-button color="warn">
+                    <button mat-flat-button color="warn" 
+                    [swal]="{
+                        title: 'Confirmation',
+                        text: 'Are you sure thath you want to delete the record?',
+                        showCancelButton: true
+                    }"
+                    (confirm)="delete(element.id)">
                         Delete
                     </button>
                 </td>

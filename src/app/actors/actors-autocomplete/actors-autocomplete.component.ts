@@ -1,8 +1,10 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatTable } from '@angular/material/table';
+import { actorsMovieDTO } from '../actors.model';
+import { ActorsService } from '../actors.service';
 
 @Component({
   selector: 'app-actors-autocomplete',
@@ -11,20 +13,14 @@ import { MatTable } from '@angular/material/table';
 })
 export class ActorsAutocompleteComponent implements OnInit {
 
-  constructor() { }
+  constructor(private actorsService: ActorsService) { }
 
   control: FormControl = new FormControl();
 
-  actors = [
-    {name: 'Tom Holland', picture: 'https://m.media-amazon.com/images/M/MV5BNzZiNTEyNTItYjNhMS00YjI2LWIwMWQtZmYwYTRlNjMyZTJjXkEyXkFqcGdeQXVyMTExNzQzMDE0._V1_UX214_CR0,0,214,317_AL_.jpg'},
-    {name: 'Angelina Jolie', picture: 'https://m.media-amazon.com/images/M/MV5BODg3MzYwMjE4N15BMl5BanBnXkFtZTcwMjU5NzAzNw@@._V1_UY317_CR22,0,214,317_AL_.jpg'},
-    {name: 'Tom Hanks', picture: 'https://m.media-amazon.com/images/M/MV5BMTQ2MjMwNDA3Nl5BMl5BanBnXkFtZTcwMTA2NDY3NQ@@._V1_UY98_CR0,0,67,98_AL_.jpg'}
+  @Input()
+  selectedActors: actorsMovieDTO[] = [];
 
-  ]  
-
-  selectedActors= [];
-
-  originalActors = this.actors;
+  actorsToDisplay: actorsMovieDTO[] = [];
 
   columnsToDisplay =['picture', 'name','character','actions']
 
@@ -32,16 +28,22 @@ export class ActorsAutocompleteComponent implements OnInit {
 
   ngOnInit(): void {
     this.control.valueChanges.subscribe(value =>{
-      this.actors = this.originalActors;
-      this.actors = this.actors.filter(actor => actor.name.indexOf(value) !== -1);
-
+     this.actorsService.searchByName(value).subscribe(actors => {
+       this.actorsToDisplay = actors;
+     });
     })
   }
 
   optionSelected(event: MatAutocompleteSelectedEvent){
     console.log(event.option.value);
-    this.selectedActors.push(event.option.value);
     this.control.patchValue('');
+    // actor cannot be twice when we create a movie
+    if(this.selectedActors.findIndex(x => x.id == event.option.value.id) !== -1){
+      return
+    }
+
+    this.selectedActors.push(event.option.value);
+    
     if (this.table !== undefined){
       this.table.renderRows();
     }

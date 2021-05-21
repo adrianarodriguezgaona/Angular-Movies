@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { actorsMovieDTO } from 'src/app/actors/actors.model';
 import { multipleSelectorModel } from 'src/app/utilities/multiple-selector/multiple-selector.model';
 import { movieCreationDTO, movieDTO } from '../movies.model';
 
@@ -19,27 +20,25 @@ export class FormMovieComponent implements OnInit {
   @Output()
   onSaveChanges = new EventEmitter<movieCreationDTO>();
 
-  nonSelectedGenres: multipleSelectorModel[]= [
-    {key: 1, value: "Drama"},
-    {key: 2, value: "Comedy"},
-    {key: 3, value: "Action"}
-  ];
-
+  @Input()
+  nonSelectedGenres: multipleSelectorModel[]= [];
+  
+  @Input()
   selectedGenres: multipleSelectorModel[] = [];
 
-  
-  nonSelectedMovieTheaters: multipleSelectorModel[]= [
-    {key: 1, value: "Colon"},
-    {key: 2, value: "Teusaquillo"},
-    {key: 3, value: "Bogota"}
-  ];
+  @Input()
+  nonSelectedMovieTheaters: multipleSelectorModel[]= [];
 
+  @Input()
   selectedMovieTheaters: multipleSelectorModel[] = [];
+
+  @Input()
+  selectedActors: actorsMovieDTO[] = [];
 
 
   ngOnInit(): void {
     this.form= this.formBuilder.group({
-      title: ['',{
+      name: ['',{
         validators: [Validators.required]
       }],
       summary: '',
@@ -48,7 +47,8 @@ export class FormMovieComponent implements OnInit {
       releaseDate: '',
       poster: '' ,
       genresIds: '',
-      movieTheatersIds: ''    
+      movieTheatersIds: '',
+      actors: ''    
     });
     if (this.model !== undefined){
       this.form.patchValue(this.model);
@@ -60,7 +60,11 @@ export class FormMovieComponent implements OnInit {
     
     const movieTheatersIds = this.selectedMovieTheaters.map(value => value.key);
     this.form.get('movieTheatersIds').setValue(movieTheatersIds);
-    
+
+    const actors = this.selectedActors.map(val => {
+      return {id: val.id, character: val.character}
+    });
+    this.form.get('actors').setValue(actors);
     this.onSaveChanges.emit(this.form.value);
   }
   onImageSelected(file: File){

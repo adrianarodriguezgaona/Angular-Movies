@@ -1,7 +1,7 @@
 <form (submit)="saveChanges()" [formGroup]="form">
     <mat-form-field appearance="outline">
         <mat-label>Title*</mat-label>
-        <input formControlName="title" matInput/>
+        <input formControlName="name" matInput/>
         <mat-error>Title is required</mat-error>
     </mat-form-field>
 
@@ -43,7 +43,7 @@
     [SelectedItems]="selectedMovieTheaters"> </app-multiple-selector>
 
     <h4>Select the actors</h4>
-    <app-actors-autocomplete></app-actors-autocomplete>
+    <app-actors-autocomplete [selectedActors]= "selectedActors"></app-actors-autocomplete>
 
     <div>
         <button mat-flat-button color="primary" [disabled]="form.invalid">Save Changes</button>

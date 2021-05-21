@@ -1,16 +1,21 @@
+import { genreDTO } from "../genres/genres.model";
+import { movieTheatersDTO } from "../movie-theaters/movie-theaters.model";
+
 export interface movieCreationDTO{
-    title: string;
+    name: string;
     summary: string;
     poster: File;
     inTheaters: boolean;
     releaseDate: Date;
     trailer: string;
     genresIds: number[];
-    movieTheaters: number[];
+    movieTheatersIds: number[];
+    actors
 }
 
 export interface movieDTO{
-    title: string;
+
+    name: string;
     summary: string;
     poster: string;
     inTheaters: boolean;
@@ -18,3 +23,7 @@ export interface movieDTO{
     trailer: string;
 }
 
+export interface MoviePostGetDTO{
+    genres: genreDTO[];
+    movieTheaters: movieTheatersDTO[];
+}

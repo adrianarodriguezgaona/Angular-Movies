@@ -1,9 +1,9 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { formatDateFormData } from '../utilities/utils';
-import { actorCreationDto, actorDto } from './actors.model';
+import { actorCreationDto, actorDto, actorsMovieDTO } from './actors.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +28,13 @@ export class ActorsService {
   getById(id: number): Observable<actorDto>{
     return this.http.get<actorDto>(`${this.apiURL}/${id}`);
   }
+
+  searchByName(name: string): Observable<actorsMovieDTO[]>{
+    const headers = new HttpHeaders('Content-Type: application/json');
+    return this.http.post<actorsMovieDTO[]>(`${this.apiURL}/searchByName`,
+    JSON.stringify(name), {headers});
+  }
+
   create(actor: actorCreationDto){
     const formData = this.buildFormData(actor);
     return this.http.post(this.apiURLPostActor, formData);

@@ -1,6 +1,7 @@
 <div id="mapid"
     leaflet
     [leafletOptions]="options"
+    [(leafletCenter)]="center"
     (leafletClick)="handleMapClick($event)"
     [leafletLayers]="layers">
 </div>

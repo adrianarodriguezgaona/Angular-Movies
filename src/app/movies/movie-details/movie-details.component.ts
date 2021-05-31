@@ -26,7 +26,7 @@ export class MovieDetailsComponent implements OnInit {
         this.releaseDate = new Date(movie.releaseDate);
         this.trailerURL = this.generateYoutubeURLForEmbeddedVideo(movie.trailer);
         this.coordinates = movie.movieTheaters.map(movieTheater => {
-          return {latitude: movieTheater.latitude, longitude: movieTheater.longitude, message: movieTheater.name}
+          return {lat: movieTheater.latitude, lng: movieTheater.longitude, message: movieTheater.name}
         })
 
       });
@@ -41,7 +41,7 @@ export class MovieDetailsComponent implements OnInit {
 
     let videoId = url.split('v=')[1];
 
-    const ampersandPosition = videoId.indeOf('&');
+    const ampersandPosition = videoId.indexOf('&');
     if (ampersandPosition !== -1){
       videoId = videoId.substring(0, ampersandPosition);
     }

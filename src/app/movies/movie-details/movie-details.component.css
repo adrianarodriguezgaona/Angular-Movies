@@ -1,0 +1,55 @@
+mat-chip-list {
+    display: inline-block;
+    margin-bottom: 0.5 rem;
+}
+
+mat-chip {
+    cursor: pointer;
+}
+
+.poster{
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+.poster img{
+    width: 225px;
+    height: 315px;
+}
+
+.flexDiv{
+    display: flex;
+}
+
+.actorsDetails{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.actorsDetails div{
+    margin-bottom: 2px;
+}
+
+.actorsDetails img{
+    width: 80px;
+    height: auto;
+    vertical-align: middle;
+}
+
+.actorsDetails span:first-of-type{
+    display: inline-block;
+    width: 200px;
+    margin-left: 1rem;
+}
+
+.actorsDetails span:nth-last-of-type(2){
+    display: inline-block;
+    width: 45px;
+}
+
+.mapContainer{
+    padding-left: 1rem;
+    position: relative;
+    width: 100%;
+}

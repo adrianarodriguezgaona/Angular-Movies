@@ -1,5 +1,13 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { genreDTO } from 'src/app/genres/genres.model';
+import { GenresService } from 'src/app/genres/genres.service';
+import { movieDTO } from '../movies.model';
+import { MoviesService } from '../movies.service';
+import{Location} from '@angular/common'
+import { ActivatedRoute } from '@angular/router';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-movie-filter',
@@ -8,44 +16,127 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class MovieFilterComponent implements OnInit {
 
-  constructor(private formBuilder : FormBuilder) { }
+  constructor(private formBuilder : FormBuilder,
+    private moviesService: MoviesService,
+    private genresService: GenresService,
+    private location: Location,
+    private activatedRoute: ActivatedRoute) { }
 
   form: FormGroup;
 
-  genres = [{id: 1, name: 'Drama'},{id: 2, name: 'Comedy'}];
+  genres: genreDTO[];
 
-  movies =[
-    {title: 'Spider-Man',poster:'https://m.media-amazon.com/images/M/MV5BNTk4ODQ1MzgzNl5BMl5BanBnXkFtZTgwMTMyMzM4MTI@._V1_UX182_CR0,0,182,268_AL_.jpg'},
-    {title: 'Moana',poster:'https://m.media-amazon.com/images/M/MV5BMjI4MzU5NTExNF5BMl5BanBnXkFtZTgwNzY1MTEwMDI@._V1_UX182_CR0,0,182,268_AL_.jpg'},
-    {title: 'Inception',poster:'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_UX182_CR0,0,182,268_AL_.jpg'}
-  ];
-
-  originalMovies = this.movies;
+  movies: movieDTO[];
+  currentPage = 1;
+  recordsPerPage = 10;
+  initialFormValues: any;
+  totalAmountOfRecords;
+  
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      title: '',
+      name: '',
       genreId: 0,
       upcomingReleases: false,
       inTheaters: false
     });
 
-    this.form.valueChanges
+    this.initialFormValues = this.form.value;
+    this.readParametersFromURL();
+
+    this.genresService.getAll().subscribe(genres => {
+      this.genres = genres;
+      this.filterMovies(this.form.value);
+      this.form.valueChanges
       .subscribe( values => {
-        this.movies = this.originalMovies; // to reset the movie
         this.filterMovies(values);
+        this.writeParametersInURL();
+       
       });
+    })
+  }
+
+  private readParametersFromURL(){
+    this.activatedRoute.queryParams.subscribe(params =>{
+      var obj: any = {};
+
+      if (params.title){
+        obj.name = params.title;
+      }
+
+      if(params.genreId){
+        obj.genreId = Number(params.genreId);
+      }
+
+      if(params.upcomingReleases){
+        obj.upcomingReleases = params.upcomingReleases
+      }
+
+      if(params.inTheaters){
+        obj.inTheaters = params.inTheaters;
+      }
+
+      if(params.page){
+        this.currentPage = params.page;
+      }
+
+      if(params.recordsPerPage){
+        this.recordsPerPage = params.recordsPerPage;
+      }
+
+      this.form.patchValue(obj);
+    })
   }
 
 
-  filterMovies(values:any){
-    if(values.title){
-      this.movies = this.movies.filter(movie => movie.title.indexOf(values.title) !== -1);
+  private writeParametersInURL(){
+    const queryStrings = [];
+    const formValues = this.form.value;
+
+    if (formValues.name){
+      queryStrings.push(`title=${formValues.name}`);
     }
-    
+
+    if (formValues.genreId){
+      queryStrings.push(`genreId=${formValues.genreId}`);
+    }
+
+    if(formValues.upcomingReleases){
+      queryStrings.push(`upcomingReleases=${formValues.upcomingReleases}`);
+    }
+
+    if (formValues.inTheaters){
+      queryStrings.push(`inTheaters=${formValues.inTheaters}`);
+    }    
+
+    queryStrings.push(`page=${this.currentPage}`);
+    queryStrings.push(`recordsPerPage=${this.recordsPerPage}`);
+
+    this.location.replaceState('movies/filter', queryStrings.join('&'));    
+  }
+
+  filterMovies(values:any){
+    values.page = this.currentPage;
+    values.recordsPerPage = this.recordsPerPage;
+
+    this.moviesService.filter(values).subscribe((response: HttpResponse<movieDTO[]>) =>{
+      this.movies = response.body;
+      this.totalAmountOfRecords = response.headers.get("totalAmountOfRecords");
+    })
+  }
+
+  paginatorUpdate(event: PageEvent){
+    this.currentPage = event.pageIndex + 1;
+    this.recordsPerPage = event.pageSize;
+    this.writeParametersInURL();
+    this.filterMovies(this.form.value);
   }
 
   clearForm(){
-    this.form.reset();
+    this.form.patchValue(this.initialFormValues);
+  }
+
+  onDelete(){
+    this.filterMovies(this.form.value);
   }
 }

@@ -39,6 +39,7 @@ import { FormMovieComponent } from './movies/form-movie/form-movie.component';
 import { MultipleSelectorComponent } from './utilities/multiple-selector/multiple-selector.component';
 import { ActorsAutocompleteComponent } from './actors/actors-autocomplete/actors-autocomplete.component';
 import { MovieDetailsComponent } from './movies/movie-details/movie-details.component';
+import { AuthorizeViewComponent } from './security/authorize-view/authorize-view.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { MovieDetailsComponent } from './movies/movie-details/movie-details.comp
     FormMovieComponent,
     MultipleSelectorComponent,
     ActorsAutocompleteComponent,
-    MovieDetailsComponent
+    MovieDetailsComponent,
+    AuthorizeViewComponent
   ],
   imports: [
     BrowserModule,

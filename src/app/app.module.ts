@@ -40,6 +40,7 @@ import { MultipleSelectorComponent } from './utilities/multiple-selector/multipl
 import { ActorsAutocompleteComponent } from './actors/actors-autocomplete/actors-autocomplete.component';
 import { MovieDetailsComponent } from './movies/movie-details/movie-details.component';
 import { AuthorizeViewComponent } from './security/authorize-view/authorize-view.component';
+import { LoginComponent } from './security/login/login.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { AuthorizeViewComponent } from './security/authorize-view/authorize-view
     MultipleSelectorComponent,
     ActorsAutocompleteComponent,
     MovieDetailsComponent,
-    AuthorizeViewComponent
+    AuthorizeViewComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

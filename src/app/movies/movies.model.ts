@@ -11,7 +11,7 @@ export interface movieCreationDTO{
     trailer: string;
     genresIds: number[];
     movieTheatersIds: number[];
-    actors
+    actors: actorsMovieDTO[];
 }
 
 export interface movieDTO{
@@ -25,6 +25,8 @@ export interface movieDTO{
     genres: genreDTO[];
     movieTheaters: movieTheatersDTO[];
     actors: actorsMovieDTO[];
+    averageVote: number;
+    userVote: number;
 }
 
 export interface MoviePostGetDTO{

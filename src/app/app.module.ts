@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {MarkdownModule} from 'ngx-markdown';
 import{LeafletModule} from '@asymmetrik/ngx-leaflet';
-import{HttpClientModule} from '@angular/common/http';
+import{HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import{SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 
 
@@ -44,6 +44,7 @@ import { LoginComponent } from './security/login/login.component';
 import { RegisterComponent } from './security/register/register.component';
 import { AuthenticationFormComponent } from './security/authentication-form/authentication-form.component';
 import { DisplayErrorsComponent } from './utilities/display-errors/display-errors.component';
+import { JwtInterceptorService } from './security/jwt-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -93,7 +94,11 @@ import { DisplayErrorsComponent } from './utilities/display-errors/display-error
     MarkdownModule.forRoot(),
     SweetAlert2Module.forRoot()   
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: JwtInterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
